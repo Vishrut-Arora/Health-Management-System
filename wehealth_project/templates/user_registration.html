@@ -1,0 +1,150 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WeHealth</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'WeHealth/css/styles.css' %}">
+  </head>
+  <body>
+    
+    <script>
+      function role_display() {
+        let role_x = document.getElementById('role-select').value;
+        if(role_x == '1'){
+          document.getElementById('doctorDisplay').style.display = '';
+          document.getElementById('organizationDisplay').style.display = 'none';
+        } else if(role_x == '3' || role_x == '4' || role_x == '5'){
+          document.getElementById('doctorDisplay').style.display = 'none';
+          document.getElementById('organizationDisplay').style.display = '';
+
+        } else {
+          document.getElementById('doctorDisplay').style.display = 'none';
+          document.getElementById('organizationDisplay').style.display = 'none';
+        }
+      }
+    </script>
+
+    <section>
+        <div class="container-fluid mt-5 text-center">
+          <h1>User Registeration</h1>
+          <div class="row">
+            <div class="col-sm-12 text-dark">
+
+              <div class="d-flex align-items-center justify-content-center h-custom-2  mt-5 pt-5 pt-xl-0 mt-xl-n5">
+      
+                <form action="#" style="width: 50rem;" method="POST" oninput = 'conf_password.setCustomValidity(conf_password.value != password.value ? "Passwords do not match" : "")'>
+
+                  {% csrf_token %}
+                  {% if user_not_exists %}
+                  <div class="input-group input-group mb-3">
+                    <p class="text-danger h4">ID Proof credentials are not approved or registered. Please go to <a href="/getapproval/">Approval</a></p>
+                  </div>
+                  {% endif %}
+
+                  {% if is_registered %}
+                  <div class="input-group input-group mb-3">
+                    <p class="text-danger h4">User is already registered. Please <a href="/#login">Login</a></p>
+                  </div>
+                  {% endif %}
+
+                  {% if auth_not_done %}
+                  <div class="input-group input-group mb-3">
+                    <p class="text-danger h4">Credentials Wrong or Unauthorized</p>
+                  </div>
+                  {% endif %}
+
+                    <div class="input-group input-group mb-3">
+                      <select id="role-select" class="custom-select form-control" name="role" onclick="role_display();">
+                          <option selected>Role</option>
+                          <option value="1">Doctor</option>
+                          <option value="2">Patient</option>
+                          <!-- <option value="3">Organization</option> -->
+                          <option value="3">Pharmacy</option>
+                          <option value="4">Insurance Firm</option>
+                          <option value="5">Hospital</option>
+                      </select>
+                    </div>  
+
+                    <div id="doctorDisplay" style="display: none;">
+                      <div class="input-group input-group mb-3">
+                        <input name="doctor_price" type="number" class="form-control" placeholder="Price per appointment">
+                      </div>
+                      <div class="input-group input-group mb-3">
+                        <input name="doctor_max_appointments" type="number" class="form-control" placeholder="Max Appointments">
+                      </div>
+                    </div>
+                    
+                    <div id="organizationDisplay" style="display: none;">
+                      <div class="input-group input-group mb-3">
+                        <input name="org_name" type="text" class="form-control" placeholder="Name">
+                      </div>
+                      <div class="input-group input-group mb-3">
+                        <input name="org_description" type="text" class="form-control" placeholder="Description">
+                      </div>
+
+                      <label class="form-label" for="org_img1">Upload Image 1</label>
+                      <div class="input-group input-group mb-3">
+                        <input type="file" class="form-control" id="customFile" />
+                      </div>
+
+                      <label class="form-label" for="org_img2">Upload Image 2</label>
+                      <div class="input-group input-group mb-3">
+                        <input type="file" class="form-control" id="customFile" />
+                      </div>
+
+                      <div class="input-group input-group mb-3">
+                        <input name="org_location" type="text" class="form-control" placeholder="Location">
+                      </div>
+
+                      <div class="input-group input-group mb-3">
+                        <input name="org_contactDetails" type="number" class="form-control" placeholder="Contact Details">
+                      </div>
+
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                      <select class="custom-select form-control" name="type">
+                          <option selected>ID Proof Type</option>
+                          <option value="1">Aadhar Card</option>
+                          <option value="2">PAN Card</option>
+                          <option value="3">License</option>
+                          <option value="4">Electricity Bill</option>
+                      </select>
+                    </div>  
+
+                    <div class="input-group input-group mb-3">
+                        <input name="proof_number" type="number" class="form-control" placeholder="ID Proof Number">
+                    </div>
+                    
+                    <div class="input-group input-group mb-3">
+                        <input name="username" type="text" class="form-control" placeholder="Username">
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                        <input name="email" type="email" class="form-control" placeholder="Email">
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                      <input name="password" type="password" class="form-control" placeholder="Password">
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                        <input name="conf_password" type="password" class="form-control" placeholder="Confirm Password">
+                    </div>
+
+                  <div class="pt-4 mt-4 mb-4">
+                    <button class="btn btn-info btn-lg btn-block" type="submit">Register</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeHealth</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'WeHealth/css/styles.css' %}">
+  <link
+    rel="stylesheet"
+    href="{% static 'WeHealth/css/fontawesome.min.css' %}"
+  />
+  <link rel="stylesheet" href="../static/WeHealth/css/styles2.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+<head>
+  <body id="body-pd">
+    <header class="header" id="header">
+      <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
+      <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div>
+  </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">PD</span> </a>
+                <div class="nav_list"> <a href="#" class="nav_link active"> <i class='bx bx-grid-alt nav_icon'></i> <span class="nav_name">Dashboard</span> </a> 
+                  <a href="#patient_appointments" class="nav_link"> <i class='bx bx-user nav_icon'></i> <span class="nav_name">Appointments</span> </a> 
+                  <a href="#patient_records" class="nav_link"> <i class='bx bx-message-square-detail nav_icon'></i> <span class="nav_name">Medical Records</span> </a> 
+                  <a href="#patient_prescriptions" class="nav_link"> <i class='bx bx-bookmark nav_icon'></i> <span class="nav_name">Prescriptions</span> </a> 
+                  <a href="#patient_payments" class="nav_link"> <i class='bx bx-folder nav_icon'></i> <span class="nav_name">Payments</span> </a> 
+                  <a href="#book_appointment" class="nav_link"> <i class='bx bx-bar-chart-alt-2 nav_icon'></i> <span class="nav_name">Book Appointment</span> </a> </div>
+            </div> <a href="#" class="nav_link"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">SignOut</span> </a>
+        </nav>
+    </div>
+    <!--Container Main start-->
+    <div class="height-100 bg-light">
+        <h2><span class="text-warning">P</span>atient <span class="text-warning">D</span>ashboard</h2>
+    </div>
+
+
+    <!-- Navbar -->
+
+    <!-- Appointment Tab -->
+    <section class="section section-specialities">
+    <div
+      id="patient_appointments"
+      class="container text-center"
+    >
+      <div class="row p-5 p-lg-0 pb-lg-5 text-center">
+          <div class="col-lg-12 gy-lg-5">
+            <table class="table table-hover table-center mb-0">
+              <thead>
+                <tr>
+                  <th>Doctor</th>
+                  <th>Appt Date</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Payment Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for appointment in appointments %}
+                <tr>
+                  <td>
+                    <h2 class="table-avatar">
+                      <a
+                        href="doctor_profile.html"
+                        class="avatar avatar-sm mr-2"
+                      >
+                        <img
+                          class="avatar-img rounded-circle"
+                          src="{{ appointment.doctor.featured_image.url }}"
+                          alt="User Image"
+                        />
+                      </a>
+                      <a href="doctor-profile.html"
+                        >{{ appointment.doctor.name }}
+                        <span
+                          >{{appointment.doctor.department_name}}</span
+                        ></a
+                      >
+                    </h2>
+                  </td>
+                  <td>
+                    {{appointment.date}}
+                    <span class="d-block text-info"
+                      >{{appointment.time}}</span
+                    >
+                  </td>
+                  <td>{{appointment.appointment_type}}</td>
+                  
+                  {% if appointment.appointment_type == 'checkup' %}
+                  <td>{{appointment.doctor.consultation_fee}} BDT</td>
+                  {% else %}
+                  <td>{{appointment.doctor.report_fee}} BDT</td>
+                  {% endif %}
+                  <td>
+                    {% if appointment.appointment_status == 'pending' %}
+                    <span class="badge badge-pill bg-warning-light">Pending</span>
+                    {% endif %}
+                    {% if appointment.appointment_status == 'confirmed' %}
+                    <span class="badge badge-pill bg-success-light">Confirm</span>
+                    {% endif %}
+                    {% if appointment.appointment_status == 'cancelled' %}
+                    <span class="badge badge-pill bg-danger-light">Cancelled</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              </table>
+            
+            </div></div></div>
+    </section>
+            <br><br><br><br>
+
+            <!--mediacal records-->
+            <section class="section section-specialities">
+            <div
+              id="patient_records"
+              class="container text-center"
+            >
+              <div class="row p-5 p-lg-0 pb-lg-5 text-center">
+                  <div class="col-lg-12 gy-lg-5">
+                    <table class="table table-hover table-center mb-0 text-center">
+                      <thead>
+                        <tr>
+                          <th>Report ID</th>
+                          <th>Delivery Date</th>
+
+                          <!-- <th>Attachment</th> -->
+
+                         
+
+                          <th>Doctor</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for report in report %}
+                        <tr>
+                          <td>
+                            <a href="javascript:void(0);">{{report.report_id}}</a>
+                          </td>
+                          <td>{{report.delivery_date }}</td>
+                          
+
+                          <!-- <td><a href="#">dental-test.pdf</a></td> -->
+
+                       
+
+                          <td>
+                            <h2 class="table-avatar">
+                              <a
+                                href="doctor-profile.html"
+                                class="avatar avatar-sm mr-2"
+                              >
+                                <img
+                                  class="avatar-img rounded-circle"
+                                  src="{{report.doctor.featured_image.url }}"
+                                  alt="User Image"
+                                />
+                              </a>
+                              <a href="doctor-profile.html"
+                                >Dr.{{report.doctor}}<span>{{report.doctor.department_name }}</span></a
+                              >
+                            </h2>
+                          </td>
+                          <td class="text-right">
+                            <div class="table-action">
+                              <a
+                                href="{% url 'view-report' pk=report.report_id%}"
+                                class="btn btn-sm bg-info-light"
+                              >
+                                <i class="far fa-eye"></i> View
+                              </a>
+                              <a href="{% url 'delete-report' pk=report.report_id %}" onclick="return confirm('Are you sure you want to Delete?');" class="btn btn-sm bg-danger-light" >
+                                <i class="fas fa-trash"></i> Delete <td>
+                              </a>
+                              
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    
+                    </div></div></div>
+            </section>
+                    <br><br><br><br>
+            <!--prescriptions-->
+            <section class="section section-specialities">
+            <div
+              id="patient_prescriptions"
+              class="container text-center"
+            >
+              <div class="row p-5 p-lg-0 pb-lg-5 text-center">
+                  <div class="col-lg-12 gy-lg-5">
+                    <table class="table table-hover table-center mb-0 text-center">
+                      <thead>
+                        <tr>
+                          <th>Prescription ID</th>
+                          <th>Doctor Name</th>
+
+                          <!-- <th>Attachment</th> -->
+                          <th>Doctor</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for prescription in prescription %}
+                        <tr>
+                          <td>
+                            <a href="javascript:void(0);">{{prescription.prescription_id}}</a>
+                          </td>
+                          <td>{{prescription.doctor.name }}</td>
+                          
+
+                          <!-- <td><a href="#">dental-test.pdf</a></td> -->
+
+                       
+
+                          <td>
+                            <h2 class="table-avatar">
+                              <a
+                                href="doctor-profile.html"
+                                class="avatar avatar-sm mr-2"
+                              >
+                                <img
+                                  class="avatar-img rounded-circle"
+                                  src="{{prescription.doctor.featured_image.url }}"
+                                  alt="User Image"
+                                />
+                              </a>
+                              <a href="doctor-profile.html"
+                                >Dr. {{prescription.doctor}}<span>{{prescription.doctor.department_name }}</span></a
+                              >
+                            </h2>
+                          </td>
+                          <td>
+                            <div class="table-action">
+                              <a
+                                href="{% url 'prescription-view' pk=prescription.prescription_id%}"
+                                class="btn btn-sm bg-info-light"
+                              >
+                                <i class="far fa-eye"></i> View
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                    
+                    </div></div></div>
+            </section>
+            
+            <!--Payments-->
+            <section class="section section-specialities">
+            <div
+              id="patient_payments"
+              class="container text-center"
+            >
+              <div class="row p-5 p-lg-0 pb-lg-5 text-center">
+                  <div class="col-lg-12 gy-lg-5">
+                    <table class="table table-hover table-center mb-0">
+                      <thead>
+                        <tr>
+                          <th>Doctor</th>
+                          <th>Tranx ID</th>
+                          <th>Tranx Date</th>
+                          <th>Amount</th>
+                          <th>Card Type</th>
+                          <th>Card Issuer</th>
+                          <th>Payment Status</th>
+              
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                        {% for payment in payments %}
+                        <tr>
+                          <td>
+                            <h2 class="table-avatar">
+                              <a
+                                href="doctor-profile.html"
+                                class="avatar avatar-sm mr-2"
+                              >
+                                <img
+                                  class="avatar-img rounded-circle"
+                                  src="{{payment.appointment.doctor.featured_image.url}}"
+                                  alt="User Image"
+                                />
+                              </a>
+                              <a href="doctor-profile.html"
+                                >{{payment.appointment.doctor.name}} <span>{{payment.appointment.doctor.department}}</span></a
+                              >
+                            </h2>
+                          </td>
+                          <td>{{payment.transaction_id}}</td>
+                          <td>{{payment.transaction_date}}</td>
+                          <td>{{payment.currency_amount}} BDT</td>
+                          <td>{{payment.card_type}}</td>
+                          <td>{{payment.card_issuer}}</td>
+                          <td>
+                            {% if payment.status == 'VALID' %}
+                            <span class="badge badge-pill bg-success-light">Success</span>
+                            {% else %}
+                            <span class="badge badge-pill bg-warning-light">Pending</span>
+                            {% endif %}
+                          </td>
+                    
+                        </tr>
+                        {% endfor %}
+                  
+                     
+
+
+                      </tbody>
+                    </table>
+                    
+                    </div></div></div>
+                    </section>
+
+    <!---- Appointments-------->
+                <!--Payments-->
+                <section class="section section-specialities">
+                    {% for doctor in doctors %}
+                    <!-- Doctor Widget -->
+                    <div class="card" id = "book_appointment">
+                      <div class="card-body">
+                        <div class="doctor-widget">
+                          <div class="doc-info-left">
+                            <div class="doctor-img">
+                              <a href="">
+                                <img
+                                  src="../static/WeHealth/img/doctor/default_doctor.jpg"
+                                  class="img-fluid"
+                                  alt="User Image"
+                                />
+                              </a>
+                            </div>
+                            <div class="doc-info-cont">
+                              <h4 class="doc-name">
+                                <a href="">Dr. {{doctor.username}}</a>
+                              </h4>
+                              <p class="doc-speciality"><b>Department: </b>{{ doctor.department_name.hospital_department_name }}</p>
+                              <h5 class="doc-department"><b>Specialization: </b>
+                                {{ doctor.specialization.specialization_name }}
+                              </h5>
+                              
+                              <div class="clinic-details">
+                                <p class="doc-location">
+                                  <i class="fas fa-map-marker-alt"></i> <b>Hospital: </b>
+                                  {{doctor.hospital_name}}
+                                </p>
+                                <ul class="clinic-gallery">
+                                  <li>
+                                    <a
+                                      href="{% static 'HealthStack-System/images/Normal/features/feature-01.jpg'%}"
+                                      data-fancybox="gallery"
+                                    >
+                                      <img
+                                        src="{% static 'HealthStack-System/images/Normal/features/feature-01.jpg'%}"
+                                        alt="Feature"
+                                      />
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      href="{% static 'HealthStack-System/images/Normal/features/feature-02.jpg'%}"
+                                      data-fancybox="gallery"
+                                    >
+                                      <img
+                                        src="{% static 'HealthStack-System/images/Normal/features/feature-02.jpg'%}"
+                                        alt="Feature"
+                                      />
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                              <div class="clinic-services">
+                                <span>Dental Fillings</span>
+                                <span> Whitneing</span>
+                              </div>
+                            </div>
+                          </div>
+      
+                          <div class="doc-info-right">
+                            <div class="clini-infos">
+                              <ul>
+                                <li></li>
+                                <li></li>
+                                <li>
+                                  <i class="fas fa-map-marker-alt"></i>
+                                  {{doctor.hospital_name}}
+                                </li>
+                                <li>
+                                  <i class="far fa-money-bill-alt"></i>
+                                  {{doctor.consultation_fee}} BDT
+                                  
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="clinic-booking">
+                              <a class="view-pro-btn" href=""
+                                >View Profile</a
+                              >
+                              <a
+                                class="apt-btn"
+                                href=""
+                                >Book Appointment</a
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /Doctor Widget -->
+                    {% endfor %}
+                            </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../static/WeHealth/js/sidebar.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script> 
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script>       
+</body>
+
